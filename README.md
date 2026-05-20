@@ -4,6 +4,8 @@
 [![npm downloads](https://img.shields.io/npm/dm/@kavienw/deepseek-cli.svg)](https://www.npmjs.com/package/@kavienw/deepseek-cli)
 [![license](https://img.shields.io/npm/l/@kavienw/deepseek-cli.svg)](./LICENSE)
 
+**📖 中文** · [English](./README.en.md)
+
 > 基于 DeepSeek 模型的智能体编程命令行工具——在终端里让 AI 读你的代码、改文件、跑命令、联网搜索。Claude Code 式体验,一行命令安装即用。
 
 ```bash
