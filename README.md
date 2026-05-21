@@ -289,6 +289,7 @@ A:`npm i -g @kavienw/deepseek-cli@latest` / `npm uninstall -g @kavienw/deepseek-
 ---
 
 📦 **npm**: <https://www.npmjs.com/package/@kavienw/deepseek-cli>
+🐛 **问题反馈**: <https://github.com/kaivenw/deepseek-cli-docs/issues>
 
 ## License
 
