@@ -65,6 +65,21 @@ Windows PowerShell:
 irm https://raw.githubusercontent.com/kaivenw/deepseek-cli-docs/main/install.ps1 | iex
 ```
 
+### 国内加速(npm 镜像)
+
+如果访问 npm 官方源慢或失败,改用 [npmmirror](https://npmmirror.com)(淘宝镜像,自动同步官方源):
+
+```bash
+# 临时指定镜像安装
+npm install -g @kavienw/deepseek-cli --registry=https://registry.npmmirror.com
+
+# 或把默认源永久切到镜像(之后所有 npm 都走镜像)
+npm config set registry https://registry.npmmirror.com
+npm install -g @kavienw/deepseek-cli
+```
+
+装完命令同样是 `deepseek`。一键脚本如需走镜像,可先执行上面的 `npm config set registry ...` 再运行脚本。
+
 更新与卸载:
 
 ```bash
