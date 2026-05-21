@@ -65,6 +65,21 @@ Windows PowerShell:
 irm https://raw.githubusercontent.com/kaivenw/deepseek-cli-docs/main/install.ps1 | iex
 ```
 
+### Faster install in China (npm mirror)
+
+If npmjs.org is slow or blocked, use [npmmirror](https://npmmirror.com) (a read-only mirror that auto-syncs from npm):
+
+```bash
+# Install via the mirror
+npm install -g @kavienw/deepseek-cli --registry=https://registry.npmmirror.com
+
+# Or set it as your default registry (all npm traffic goes through the mirror)
+npm config set registry https://registry.npmmirror.com
+npm install -g @kavienw/deepseek-cli
+```
+
+The command is still `deepseek`.
+
 Update & uninstall:
 
 ```bash
