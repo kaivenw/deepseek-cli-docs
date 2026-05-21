@@ -59,6 +59,12 @@ npx @kavienw/deepseek-cli "总结这个项目"
 curl -fsSL https://raw.githubusercontent.com/kaivenw/deepseek-cli-docs/main/install.sh | bash
 ```
 
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/kaivenw/deepseek-cli-docs/main/install.ps1 | iex
+```
+
 更新与卸载:
 
 ```bash

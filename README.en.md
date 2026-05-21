@@ -59,6 +59,12 @@ Or use the one-line script (detects Node and installs):
 curl -fsSL https://raw.githubusercontent.com/kaivenw/deepseek-cli-docs/main/install.sh | bash
 ```
 
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/kaivenw/deepseek-cli-docs/main/install.ps1 | iex
+```
+
 Update & uninstall:
 
 ```bash
