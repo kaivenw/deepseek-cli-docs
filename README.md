@@ -131,11 +131,40 @@ deepseek --continue "接着上次的登录模块"
 
 | 用法 | 作用 |
 |------|------|
-| `@src/app.ts` | 在提问里内联引用文件内容 |
+| `@` | 输入 `@` 弹出**模糊文件选择**;↑↓ 选择、Tab/Enter 插入路径(也可直接 `@src/app.ts`) |
 | **拖拽文件/图片到窗口** | 自动作为附件,无需 `@` 前缀 |
 | `# 这个项目用 PostgreSQL` | 一句话写入项目记忆(`DEEPSEEK.md`) |
 | `! npm test` | 直接执行 Shell 命令,不经过 AI |
-| **Esc / Ctrl-C** | 打断正在进行的生成 |
+| `/` | 弹出斜杠命令菜单,Tab 补全 + 模糊搜索 |
+
+### 键盘快捷键
+
+| 按键 | 作用 |
+|------|------|
+| **Enter** | 提交(若有补全候选先采用所选项) |
+| **Tab** | 采用当前补全候选(命令 / @文件) |
+| **↑ / ↓** | 浏览历史 / 在补全候选间移动 |
+| **Shift+Tab** | 循环权限模式:`normal → accept edits → plan` |
+| **Esc** | 有输入时清空当前行;空输入时连按两次 → 回退检查点(`/rewind`) |
+| **Ctrl+C** | 有输入时清空当前行;空输入时再按一次退出 |
+
+**权限模式**(Shift+Tab 切换,提示符显示当前模式):
+- **normal**:写文件 / 执行命令前逐次确认。
+- **accept edits**:自动批准文件编辑(`write_file`/`edit_file`),`bash` 仍确认。
+- **plan**:只读——拦截所有写 / 执行工具,模型只产出计划。
+
+### 任务执行中(边跑边输入 / 排队)
+
+任务运行时底部输入框可用,**可继续打字**(行为与 Claude Code 一致):
+
+| 按键 | 作用 |
+|------|------|
+| **Enter** | 把消息**排队**(不打断当前任务),结束后按顺序自动执行;可排多条 |
+| **↑** | 把最近一条排队消息取回输入框编辑 |
+| **Esc** | 有排队消息:取回最近一条到输入框;无排队:中断当前任务 |
+| **Ctrl+C** | 中断当前任务 |
+
+排队中的消息会逐条显示在状态区(`⏳ 1. …`)。
 
 ## 内置工具
 
@@ -305,6 +334,7 @@ A:`npm i -g @kavienw/deepseek-cli@latest` / `npm uninstall -g @kavienw/deepseek-
 
 📦 **npm**: <https://www.npmjs.com/package/@kavienw/deepseek-cli>
 🐛 **问题反馈**: <https://github.com/kaivenw/deepseek-cli-docs/issues>
+📜 **更新日志**: [CHANGELOG.md](./CHANGELOG.md)
 
 ## License
 

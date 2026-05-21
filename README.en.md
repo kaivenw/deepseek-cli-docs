@@ -130,11 +130,40 @@ Multi-line input: end a line with `\`. Press **Esc / Ctrl-C** to interrupt gener
 
 | Shortcut | What it does |
 |------|------|
-| `@src/app.ts` | Inline a file's contents into your prompt |
+| `@` | Type `@` to open a **fuzzy file picker** (↑↓ select, Tab/Enter insert); or type `@src/app.ts` directly |
 | **Drag a file/image in** | Auto-attached, no `@` prefix needed |
 | `# this project uses PostgreSQL` | Quick-write to project memory (`DEEPSEEK.md`) |
 | `! npm test` | Run a shell command directly (bypasses the AI) |
-| **Esc / Ctrl-C** | Interrupt the current generation |
+| `/` | Open the slash-command menu (Tab complete + fuzzy search) |
+
+### Keyboard shortcuts
+
+| Key | Action |
+|------|------|
+| **Enter** | Submit (applies the selected completion first, if any) |
+| **Tab** | Accept the current completion (command / @file) |
+| **↑ / ↓** | Browse history / move through completions |
+| **Shift+Tab** | Cycle permission mode: `normal → accept edits → plan` |
+| **Esc** | Clears a non-empty line; on an empty line, press twice to rewind (`/rewind`) |
+| **Ctrl+C** | Clears a non-empty line; on an empty line, press again to exit |
+
+**Permission modes** (Shift+Tab; shown in the prompt):
+- **normal**: confirm before each file write / command.
+- **accept edits**: auto-approve file edits (`write_file`/`edit_file`); `bash` still asks.
+- **plan**: read-only — block all writes/commands; the model only produces a plan.
+
+### While a task is running (type-ahead / queue)
+
+The input stays active while a task runs — keep typing (matches Claude Code):
+
+| Key | Action |
+|------|------|
+| **Enter** | **Queue** the message (does not interrupt); runs in order after the task. Queue several. |
+| **↑** | Pull the most recent queued message back into the input to edit |
+| **Esc** | With queued messages: un-queue the latest; with none: interrupt the task |
+| **Ctrl+C** | Interrupt the current task |
+
+Queued messages are listed in the status area (`⏳ 1. …`).
 
 ## Built-in tools
 
