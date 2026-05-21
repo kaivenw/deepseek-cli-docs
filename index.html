@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DeepSeek CLI · 智能体编程命令行工具</title>
+  <meta name="description" content="基于 DeepSeek 模型的智能体编程命令行工具，在终端里让 AI 读代码、改文件、跑命令、联网搜索。npm 一键安装。" />
+  <style>
+    :root {
+      --bg: #0b0d12; --panel: #141821; --border: #232a36;
+      --fg: #e6e9ef; --dim: #9aa4b2; --accent: #5b8cff; --green: #43c59e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--fg);
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+    header { padding: 72px 0 40px; text-align: center; }
+    .logo { font-size: 14px; letter-spacing: .3em; color: var(--dim); text-transform: uppercase; }
+    h1 { font-size: 44px; margin: 14px 0 10px; }
+    h1 .gradient {
+      background: linear-gradient(90deg, #5b8cff, #43c59e);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .tagline { color: var(--dim); font-size: 18px; max-width: 620px; margin: 0 auto; }
+    .cta { margin: 28px 0 8px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 10px 18px; border-radius: 10px;
+      border: 1px solid var(--border); background: var(--panel); color: var(--fg); font-weight: 600;
+    }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .install {
+      display: flex; align-items: center; gap: 12px; justify-content: space-between;
+      max-width: 560px; margin: 24px auto 0; padding: 14px 16px;
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    .install code { color: var(--green); font-size: 15px; }
+    .install button {
+      border: 1px solid var(--border); background: #1c2230; color: var(--dim);
+      border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px;
+    }
+    .install button:hover { color: var(--fg); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 56px 0; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+    .card h3 { margin: 0 0 6px; font-size: 16px; }
+    .card p { margin: 0; color: var(--dim); font-size: 14px; }
+    .card .emoji { font-size: 22px; }
+    .section { margin: 48px 0; }
+    .section h2 { font-size: 22px; margin-bottom: 14px; }
+    pre {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+      padding: 16px; overflow-x: auto; font-size: 14px;
+    }
+    pre code { color: #cdd6e4; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    footer { color: var(--dim); text-align: center; padding: 48px 0 64px; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">DeepSeek · CLI</div>
+      <h1>在终端里用 <span class="gradient">DeepSeek</span> 写代码</h1>
+      <p class="tagline">智能体编程命令行工具——让 AI 读你的代码库、编辑文件、执行命令、联网搜索。Claude Code 式体验，一行命令安装即用。</p>
+
+      <div class="install">
+        <code id="cmd">npm install -g @kavienw/deepseek-cli</code>
+        <button onclick="copyCmd()" id="copyBtn">复制</button>
+      </div>
+
+      <div class="cta">
+        <a class="btn primary" href="https://www.npmjs.com/package/@kavienw/deepseek-cli">npm 包</a>
+        <a class="btn" href="https://github.com/kaivenw/deepseek-cli-docs">使用文档</a>
+        <a class="btn" href="https://github.com/kaivenw/deepseek-cli-docs/blob/main/README.en.md">English</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="card"><div class="emoji">🤖</div><h3>智能体循环</h3><p>理解需求 → 读/搜/跑/改 → 自我验证，直到完成。</p></div>
+      <div class="card"><div class="emoji">📝</div><h3>彩色 diff</h3><p>每次文件编辑都清晰展示改了什么。</p></div>
+      <div class="card"><div class="emoji">↩️</div><h3>检查点回溯</h3><p>一条命令同时撤销对话和文件改动。</p></div>
+      <div class="card"><div class="emoji">🧩</div><h3>可扩展</h3><p>技能、插件市场、MCP 服务器、工具钩子。</p></div>
+      <div class="card"><div class="emoji">👷</div><h3>子代理</h3><p>把子任务委派给隔离的 sub-agent。</p></div>
+      <div class="card"><div class="emoji">🔎</div><h3>联网搜索</h3><p>博查 / Tavily / DuckDuckGo，网页抓取。</p></div>
+    </div>
+
+    <div class="section">
+      <h2>30 秒上手</h2>
+      <pre><code># 1) 安装
+npm install -g @kavienw/deepseek-cli
+
+# 2) 配置 API Key（platform.deepseek.com/api_keys）
+export DEEPSEEK_API_KEY="sk-..."
+
+# 3) 启动
+deepseek
+# 或单次提问
+deepseek "总结这个项目"</code></pre>
+    </div>
+
+    <footer>
+      MIT License · <a href="https://www.npmjs.com/package/@kavienw/deepseek-cli">npm</a> ·
+      <a href="https://github.com/kaivenw/deepseek-cli-docs">GitHub</a>
+    </footer>
+  </div>
+
+  <script>
+    function copyCmd() {
+      const text = document.getElementById('cmd').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const b = document.getElementById('copyBtn');
+        b.textContent = '已复制 ✓';
+        setTimeout(() => (b.textContent = '复制'), 1500);
+      });
+    }
+  </script>
+</body>
+</html>
