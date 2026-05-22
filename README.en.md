@@ -140,7 +140,7 @@ deepseek --yes "format the whole src directory"
 deepseek --continue "carry on with the login module"
 ```
 
-Multi-line input: end a line with `\`. Press **Esc / Ctrl-C** to interrupt generation.
+Multi-line input: **Option/Alt+Enter** (or Shift+Enter in supported terminals) inserts a newline; or end a line with `\`. Press **Esc / Ctrl-C** to interrupt generation.
 
 ## Input shortcuts
 
@@ -157,11 +157,20 @@ Multi-line input: end a line with `\`. Press **Esc / Ctrl-C** to interrupt gener
 | Key | Action |
 |------|------|
 | **Enter** | Submit (applies the selected completion first, if any) |
+| **Option/Alt+Enter** | Insert a newline (multi-line input; does not submit) |
 | **Tab** | Accept the current completion (command / @file) |
-| **↑ / ↓** | Browse history / move through completions |
+| **↑ / ↓** | Browse history / move through completions; move between lines in multi-line input |
+| **Ctrl+R** | Reverse incremental history search (Ctrl+R again = older match, ↵ accept, Esc cancel) |
+| **Ctrl+A / Ctrl+E** | Jump to line start / end |
+| **Ctrl+W / Alt+Backspace** | Delete the previous word |
+| **Ctrl+U / Ctrl+K** | Delete to line start / to line end |
+| **Alt+←→ · Ctrl+←→ · Alt+B/F** | Move by word |
+| **Ctrl+L** | Clear the screen (keep current input) |
 | **Shift+Tab** | Cycle permission mode: `normal → accept edits → plan` |
 | **Esc** | Clears a non-empty line; on an empty line, press twice to rewind (`/rewind`) |
 | **Ctrl+C** | Clears a non-empty line; on an empty line, press again to exit |
+
+> Input history is **persisted per project** (recall with ↑ after a restart); **multi-line pastes keep their newlines** (code/logs aren't collapsed onto one line).
 
 **Permission modes** (Shift+Tab; shown in the prompt):
 - **normal**: confirm before each file write / command.

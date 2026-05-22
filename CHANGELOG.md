@@ -3,6 +3,15 @@
 本项目通过 npm 发布:[`@kavienw/deepseek-cli`](https://www.npmjs.com/package/@kavienw/deepseek-cli)。
 升级:`npm i -g @kavienw/deepseek-cli@latest`(国内加 `--registry=https://registry.npmmirror.com`)。
 
+## 0.2.0
+
+**输入交互大幅增强(对标 Claude Code / readline)**
+- **多行粘贴保留换行**:启用 bracketed paste,粘贴代码/日志不再被压成一行(此前会丢换行)。
+- **行内编辑快捷键**:Ctrl+A/E 行首尾、Ctrl+U/K 删到行首/尾、Ctrl+W 与 Alt+Backspace 删词、Alt+D 删后词、Ctrl/Alt+←→ 与 Alt+B/F 按词移动、Ctrl+D 删字符/空行退出、Ctrl+L 清屏。
+- **输入历史持久化**:按项目存到 `~/.deepseek-cli/history/`,重启后 ↑ 仍可调出;新增 **Ctrl+R 反向增量搜索**。
+- **原生换行**:Option/Alt+Enter(及受支持终端的 Shift+Enter)直接插入换行;多行输入时 ↑↓ 在行间移动光标。
+- 空输入时底部常驻浅色快捷键提示条。
+
 ## 0.1.9
 
 **多 API Key 管理与切换(`/key`)**
