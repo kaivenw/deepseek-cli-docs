@@ -103,6 +103,22 @@ deepseek
 
 > 从环境变量读取的密钥**不会**被写入磁盘。
 
+### 多 Key 管理与切换(`/key`)
+
+可以保存多把 Key(例如个人 / 团队 / 中转代理),在会话里随时切换 —— **切换不会清空当前对话**,只换凭证。
+
+```bash
+/key            # 弹出交互菜单:选择切换、➕ 添加、✕ 删除(均显示掩码 sk-86…bd47)
+/key add        # 录入名称 → 密码式输入 Key(隐藏)→ 可选自定义端点
+/key use 团队    # 切到指定 Key
+/key list       # 列出全部 Key(● 标记当前)
+/key rm 团队     # 删除某个 Key
+```
+
+- **切换 / 添加都会先校验有效性**(转圈 + ✓/✗,失效则不切换)。
+- 所有 Key 在界面里只显示掩码,绝不打印完整明文。
+- 设置了 `DEEPSEEK_API_KEY` 环境变量时,它标记为 `(env)` 且优先生效、不可删除。
+
 ## 快速上手
 
 ```bash
@@ -191,6 +207,7 @@ AI 会按需自动调用这些工具(有副作用的会先征求你同意):
 | `/help` | 帮助与命令列表 |
 | `/init` | 勘探项目并生成/更新 `DEEPSEEK.md` |
 | `/model` · `/models` | 切换 / 列出模型 |
+| `/key [add\|use\|rm\|list]` | 切换 / 添加 / 删除 API Key(带有效性校验,保留会话) |
 | `/thinking [on\|off\|collapsed\|full]` | 控制推理过程显示 |
 | `/review [ref]` | 审查 Git 改动 |
 | `/task <prompt>` | 跑一个隔离子任务 |
@@ -284,12 +301,18 @@ AI 会按需自动调用这些工具(有副作用的会先征求你同意):
   "baseURL": "https://api.deepseek.com",
   "model": "deepseek-v4-pro",
   "thinkingMode": "collapsed",
-  "alwaysAllow": []
+  "alwaysAllow": [],
+  "apiKeys": {
+    "default": { "key": "sk-xxxx" },
+    "团队":    { "key": "sk-yyyy", "baseURL": "https://代理地址" }
+  },
+  "activeApiKey": "default"
 }
 ```
 
 - `thinkingMode`:`off`(隐藏推理)/ `collapsed`(折叠前几行)/ `full`(完整)。
 - `alwaysAllow`:始终免确认的工具名列表。
+- `apiKeys` / `activeApiKey`:命名 Key 档案与当前选中项,一般用 `/key` 管理而无需手改。环境变量 Key 永不写入此处。
 
 ### 环境变量
 

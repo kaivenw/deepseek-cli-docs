@@ -103,6 +103,22 @@ deepseek
 
 > A key read from the environment is **never** written to disk.
 
+### Manage & switch keys (`/key`)
+
+Save several keys (e.g. personal / team / proxy) and switch anytime — **switching keeps your conversation**, it only swaps the credential.
+
+```bash
+/key            # interactive menu: switch, ＋ add, ✕ remove (all shown masked, e.g. sk-86…bd47)
+/key add        # name → masked key input → optional custom endpoint
+/key use team   # switch to a named key
+/key list       # list all keys (● marks the active one)
+/key rm team    # remove a key
+```
+
+- **Adding / switching validates the key first** (spinner + ✓/✗; won't switch if it fails).
+- Keys are only ever shown masked — the full value is never printed.
+- When `DEEPSEEK_API_KEY` is set it shows as `(env)`, takes precedence, and can't be removed.
+
 ## Quick start
 
 ```bash
@@ -190,6 +206,7 @@ In interactive mode, type `/` (press **Tab** to complete, `/` alone to browse):
 | `/help` | Help and command list |
 | `/init` | Explore the project and generate/update `DEEPSEEK.md` |
 | `/model` · `/models` | Switch / list models |
+| `/key [add\|use\|rm\|list]` | Switch / add / remove API keys (validated, keeps session) |
 | `/thinking [on\|off\|collapsed\|full]` | Control reasoning display |
 | `/review [ref]` | Review Git changes |
 | `/task <prompt>` | Run an isolated sub-task |
@@ -281,12 +298,18 @@ A failing `preToolUse` / `userPromptSubmit` hook (without `continueOnError`) blo
   "baseURL": "https://api.deepseek.com",
   "model": "deepseek-v4-pro",
   "thinkingMode": "collapsed",
-  "alwaysAllow": []
+  "alwaysAllow": [],
+  "apiKeys": {
+    "default": { "key": "sk-xxxx" },
+    "team":    { "key": "sk-yyyy", "baseURL": "https://your-proxy" }
+  },
+  "activeApiKey": "default"
 }
 ```
 
 - `thinkingMode`: `off` (hide reasoning) / `collapsed` (first lines) / `full`.
 - `alwaysAllow`: tools that never need confirmation.
+- `apiKeys` / `activeApiKey`: named key profiles and the active one — usually managed via `/key`, no need to hand-edit. An env-provided key is never stored here.
 
 ### Environment variables
 

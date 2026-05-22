@@ -3,6 +3,17 @@
 本项目通过 npm 发布:[`@kavienw/deepseek-cli`](https://www.npmjs.com/package/@kavienw/deepseek-cli)。
 升级:`npm i -g @kavienw/deepseek-cli@latest`(国内加 `--registry=https://registry.npmmirror.com`)。
 
+## 0.1.9
+
+**多 API Key 管理与切换(`/key`)**
+- 新增 `/key`(别名 `/keys`):
+  - 裸 `/key` 弹出交互菜单 —— 选择切换、➕ 添加、✕ 删除,所有 Key 显示掩码(`sk-86…bd47`)。
+  - `/key add` 录入名称 → 密码式隐藏输入 Key → 可选自定义端点;`/key use <名>`、`/key rm <名>`、`/key list`。
+- **切换 / 添加先校验有效性**(转圈 + ✓/✗,失效则不切换),校验走轻量的 `models.list`。
+- **切换 Key 保留当前会话**,只重建底层客户端、不清空上下文。
+- 配置新增 `apiKeys` / `activeApiKey`;旧的单 `apiKey` 自动迁移为 `default` 档案;环境变量 Key 标记 `(env)`、优先生效、永不写盘、不可删除。
+- 启动 Banner 与 `/config` 显示当前 Key(掩码 + 名称)。
+
 ## 0.1.8
 
 **对齐 Claude Code 的交互逻辑**
