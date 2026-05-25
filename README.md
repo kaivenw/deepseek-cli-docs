@@ -38,7 +38,7 @@ deepseek
 - 🧩 **可扩展**:自定义技能、插件市场、MCP 服务器、工具钩子
 - 👷 **子代理**:把子任务委派给隔离的 sub-agent
 - 🔎 **联网搜索**(博查 / Tavily / DuckDuckGo)、网页抓取
-- 📄 **PDF / Word 自动提取文字**:拖入或 `@` 引用 `.pdf` / `.docx`,自动转成文本喂给模型
+- 📄 **文档自动提取文字**:拖入或 `@` 引用 `.pdf` / `.docx` / `.pptx` / `.xlsx`,自动转成文本喂给模型;扫描件 PDF / 图片可选 **OCR**
 - 🖱️ **拖拽文件**进窗口即作为上下文、`@文件` 引用、`!命令` 直跑 Shell
 - 🧵 **流式输出**,生成中按 `Esc` 随时打断
 
@@ -149,7 +149,7 @@ deepseek --continue "接着上次的登录模块"
 | 用法 | 作用 |
 |------|------|
 | `@` | 输入 `@` 弹出**模糊文件/目录选择**;↑↓ 选择、Tab/Enter 插入(选目录可继续往下钻),也可直接 `@src/app.ts` |
-| **拖拽文件/PDF/Word 到窗口** | 自动作为附件,无需 `@` 前缀;**PDF 与 Word(.docx)自动提取文字** |
+| **拖拽文件/文档到窗口** | 自动作为附件,无需 `@` 前缀;**PDF / Word / PPT / Excel 自动提取文字**,扫描件/图片可 OCR |
 | `# 这个项目用 PostgreSQL` | 一句话写入项目记忆(`DEEPSEEK.md`) |
 | `! npm test` | 直接执行 Shell 命令,不经过 AI |
 | `/` | 弹出斜杠命令菜单,Tab 补全 + 模糊搜索 |
@@ -198,7 +198,7 @@ AI 会按需自动调用这些工具(有副作用的会先征求你同意):
 
 | 工具 | 功能 | 需确认 |
 |------|------|--------|
-| `read_file` / `list_files` / `search_text` | 读文件(PDF / Word 自动提取文字)/ 列文件 / 正则搜索 | ✗ |
+| `read_file` / `list_files` / `search_text` | 读文件(PDF/Word/PPT/Excel 自动提取文字,扫描件可 OCR)/ 列文件 / 正则搜索 | ✗ |
 | `write_file` / `edit_file` | 写文件 / 精确编辑(带 diff 展示) | ✓ |
 | `bash` | 执行 Shell 命令 | ✓ |
 | `web_search` / `web_fetch` | 联网搜索 / 抓取网页 | ✗ |
@@ -335,6 +335,8 @@ AI 会按需自动调用这些工具(有副作用的会先征求你同意):
 | `WEB_SEARCH_PROVIDER` | 搜索后端 bocha/tavily/duckduckgo |
 | `BOCHA_API_KEY` / `TAVILY_API_KEY` | 搜索服务密钥 |
 | `DEEPSEEK_PLUGIN_REGISTRY` | 插件市场索引地址 |
+| `DEEPSEEK_OCR` | 关闭扫描件/图片 OCR(`off`) |
+| `DEEPSEEK_OCR_LANGS` | OCR 识别语言(默认 `eng+chi_sim`) |
 
 环境变量优先级高于配置文件。
 
@@ -360,8 +362,11 @@ A:支持(Node 跨平台)。`search_text` 在装了 ripgrep 时更快,否则自�
 **Q:能识别图片吗?**
 A:当前 DeepSeek 对话接口为纯文本,拖入图片不会被发送(会有文本提示);待支持视觉的模型出现后可启用。
 
-**Q:能读 PDF / Word 吗?**
-A:可以。拖入或 `@` 引用 `.pdf` 或 `.docx` 会自动提取其中的文字喂给模型(纯 JS 实现,无需额外安装)。PDF 扫描件(只有图片、没有文字层)无法提取,会给出明确提示。其它二进制文件会被识别并跳过,而不是塞乱码。
+**Q:能读 PDF / Word / PPT / Excel 吗?**
+A:可以。拖入或 `@` 引用 `.pdf` / `.docx` / `.pptx` / `.xlsx` 会自动提取文字喂给模型(纯 JS、无需额外安装)。其它二进制文件会被识别并跳过,而不是塞乱码。
+
+**Q:扫描件 PDF / 图片能 OCR 吗?**
+A:可以(可选)。扫描件 PDF(无文字层)和图片会尝试 OCR。OCR 依赖较重,放在 **可选依赖**:默认随安装拉取;若你的平台没装,会给出一行安装提示 `npm i -g tesseract.js @napi-rs/canvas`。用 `DEEPSEEK_OCR=off` 关闭,`DEEPSEEK_OCR_LANGS`(默认 `eng+chi_sim`)设置识别语言。首次 OCR 会联网下载对应语言数据(有缓存)。
 
 **Q:更新/卸载?**
 A:`npm i -g @kavienw/deepseek-cli@latest` / `npm uninstall -g @kavienw/deepseek-cli`。

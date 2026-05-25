@@ -38,7 +38,7 @@ deepseek
 - 🧩 **Extensible**: custom skills, plugin marketplace, MCP servers, tool hooks
 - 👷 **Sub-agents**: delegate sub-tasks to an isolated agent
 - 🔎 **Web search** (Bocha / Tavily / DuckDuckGo) and page fetching
-- 📄 **PDF & Word text extraction**: drag in or `@`-reference a `.pdf` / `.docx` and its text is fed to the model
+- 📄 **Document text extraction**: drag in or `@`-reference a `.pdf` / `.docx` / `.pptx` / `.xlsx`; scanned PDFs & images can use optional **OCR**
 - 🖱️ **Drag files** into the window as context, `@file` references, `!cmd` direct shell
 - 🧵 **Streaming output**, press `Esc` anytime to interrupt
 
@@ -148,7 +148,7 @@ Multi-line input: **Option/Alt+Enter** (or Shift+Enter in supported terminals) i
 | Shortcut | What it does |
 |------|------|
 | `@` | Type `@` to open a **fuzzy file/dir picker** (↑↓ select, Tab/Enter insert; pick a dir to drill in); or type `@src/app.ts` directly |
-| **Drag a file/PDF/Word in** | Auto-attached, no `@` prefix needed; **PDF & Word (.docx) text auto-extracted** |
+| **Drag a file/document in** | Auto-attached, no `@` prefix; **PDF / Word / PPT / Excel text auto-extracted**, scanned/image OCR optional |
 | `# this project uses PostgreSQL` | Quick-write to project memory (`DEEPSEEK.md`) |
 | `! npm test` | Run a shell command directly (bypasses the AI) |
 | `/` | Open the slash-command menu (Tab complete + fuzzy search) |
@@ -197,7 +197,7 @@ The AI calls these as needed (side-effecting ones ask for confirmation first):
 
 | Tool | Purpose | Confirm |
 |------|------|--------|
-| `read_file` / `list_files` / `search_text` | read (PDF & Word text auto-extracted) / list / regex search | ✗ |
+| `read_file` / `list_files` / `search_text` | read (PDF/Word/PPT/Excel auto-extracted, scanned → OCR) / list / regex search | ✗ |
 | `write_file` / `edit_file` | write / precise edit (with diff) | ✓ |
 | `bash` | run a shell command | ✓ |
 | `web_search` / `web_fetch` | web search / fetch a page | ✗ |
@@ -332,6 +332,8 @@ A failing `preToolUse` / `userPromptSubmit` hook (without `continueOnError`) blo
 | `WEB_SEARCH_PROVIDER` | Search backend bocha/tavily/duckduckgo |
 | `BOCHA_API_KEY` / `TAVILY_API_KEY` | Search service keys |
 | `DEEPSEEK_PLUGIN_REGISTRY` | Plugin marketplace index URL |
+| `DEEPSEEK_OCR` | Disable scanned/image OCR (`off`) |
+| `DEEPSEEK_OCR_LANGS` | OCR languages (default `eng+chi_sim`) |
 
 Environment variables take precedence over the config file.
 
@@ -349,8 +351,11 @@ A: Yes (Node is cross-platform). `search_text` is faster with ripgrep installed;
 **Q: Can it read images?**
 A: DeepSeek's chat API is currently text-only, so dropped images are not sent (you'll see a notice). It will work once a vision-capable model is available.
 
-**Q: Can it read PDFs / Word docs?**
-A: Yes. Dragging in or `@`-referencing a `.pdf` or `.docx` auto-extracts its text for the model (pure-JS, nothing extra to install). Scanned PDFs (images only, no text layer) can't be extracted — you'll get a clear notice. Other binary files are detected and skipped rather than dumped as garbage.
+**Q: Can it read PDF / Word / PowerPoint / Excel?**
+A: Yes. Dragging in or `@`-referencing a `.pdf` / `.docx` / `.pptx` / `.xlsx` auto-extracts its text (pure-JS, nothing extra to install). Other binary files are detected and skipped rather than dumped as garbage.
+
+**Q: Can it OCR scanned PDFs / images?**
+A: Yes (optional). Scanned PDFs (no text layer) and images fall back to OCR. The OCR engine is heavier, so it lives in **optional dependencies**: installed by default, but if your platform skips it you'll get a one-line hint (`npm i -g tesseract.js @napi-rs/canvas`). Disable with `DEEPSEEK_OCR=off`; set languages with `DEEPSEEK_OCR_LANGS` (default `eng+chi_sim`). The first OCR run downloads the language data (cached).
 
 **Q: Update / uninstall?**
 A: `npm i -g @kavienw/deepseek-cli@latest` / `npm uninstall -g @kavienw/deepseek-cli`.

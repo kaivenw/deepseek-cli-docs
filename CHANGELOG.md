@@ -3,6 +3,17 @@
 本项目通过 npm 发布:[`@kavienw/deepseek-cli`](https://www.npmjs.com/package/@kavienw/deepseek-cli)。
 升级:`npm i -g @kavienw/deepseek-cli@latest`(国内加 `--registry=https://registry.npmmirror.com`)。
 
+## 0.5.0
+
+**PowerPoint / Excel 文本提取**
+- `.pptx`(各 slide 的 `<a:t>`)与 `.xlsx`(`sharedStrings` + 各 sheet 单元格,支持共享串/数字/内联串)自动提取文字,接入拖入 / `@` 引用 / `read_file`。复用 `fflate`,纯 JS、无原生依赖。
+
+**扫描件 / 图片 OCR(可选)**
+- 扫描件 PDF(无文字层)与图片附件自动走 OCR:`tesseract.js` 识别,PDF 用 `@napi-rs/canvas` 经 unpdf 光栅化。
+- 两个重依赖放 **optionalDependencies + 懒加载**:基础安装保持轻量;缺失时给出一行安装提示,不报错。
+- `DEEPSEEK_OCR=off` 关闭;`DEEPSEEK_OCR_LANGS`(默认 `eng+chi_sim`)设置识别语言;OCR 过程带进度提示。
+- 非视觉模型下,拖入图片不再被丢弃,而是 OCR 取文字。
+
 ## 0.4.0
 
 **Word(.docx)文本提取**
