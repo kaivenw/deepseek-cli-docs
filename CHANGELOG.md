@@ -3,6 +3,15 @@
 本项目通过 npm 发布:[`@kavienw/deepseek-cli`](https://www.npmjs.com/package/@kavienw/deepseek-cli)。
 升级:`npm i -g @kavienw/deepseek-cli@latest`(国内加 `--registry=https://registry.npmmirror.com`)。
 
+## 0.4.0
+
+**Word(.docx)文本提取**
+- 拖入 / `@` 引用 / `read_file` 读 `.docx` 时**自动提取正文**(`fflate` 解包 `word/document.xml`,纯 JS、无原生依赖、懒加载):段落转换行、`<w:br/>` 换行、XML 实体解码。
+- 与 0.3.0 的 PDF 一致的体验;其它二进制文件仍会被识别跳过。
+
+**其它**
+- 启动 Banner 欢迎语改为通用问候 `Welcome to DeepSeek CLI`(不再显示系统用户名)。
+
 ## 0.3.0
 
 **PDF 支持**
