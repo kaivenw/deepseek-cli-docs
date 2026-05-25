@@ -3,6 +3,17 @@
 本项目通过 npm 发布:[`@kavienw/deepseek-cli`](https://www.npmjs.com/package/@kavienw/deepseek-cli)。
 升级:`npm i -g @kavienw/deepseek-cli@latest`(国内加 `--registry=https://registry.npmmirror.com`)。
 
+## 0.3.0
+
+**PDF 支持**
+- 拖入 / `@` 引用 / `read_file` PDF 时**自动提取文字**(`unpdf`,纯 JS、无原生依赖、懒加载),不再把二进制塞给模型。
+- 扫描件(无文字层)给出"无法提取、不支持 OCR"的清晰提示;其它二进制文件(`.docx`/`.zip` 等)会被识别并跳过,而非输出乱码。
+
+**交互细节打磨**
+- 生成中**中断提示更显眼**:状态行常驻高亮 `Esc`(有队列时为 `Ctrl+C`)to interrupt。
+- `/` 命令菜单显示 **`+N more · keep typing to narrow`** 计数。
+- `@` 选择器支持**目录补全**:选中目录不补空格、可继续往下钻。
+
 ## 0.2.0
 
 **输入交互大幅增强(对标 Claude Code / readline)**
